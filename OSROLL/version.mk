@@ -18,12 +18,12 @@ PKGS=Packages
 BASEPATH=$(VERSION)/os/$(ARCH)/$(PKGS)/
 endif
 ifeq ($(VERSION.MAJOR), 7)
-VERSION=7.5.1804
+VERSION=7.9.2009
 PKGS=Packages
 BASEPATH=$(VERSION)/os/$(ARCH)/$(PKGS)/
 endif
 
-MIRRORURL=http://linux.mirrors.es.net/centos/
+MIRRORURL=http://mirror1.hs-esslingen.de/Mirrors/centos
 
 UPDATESPATH=$(VERSION)/updates/$(ARCH)/$(PKGS)/
 
