@@ -222,6 +222,10 @@ endif
 ifeq ($(VERSION.MAJOR),6)
 SRCDIRS += firerox protobuf
 endif
+## protobuf for 7 (problems with mosh)
+ifeq ($(VERSION.MAJOR),7)
+SRCDIRS += protobuf
+endif
 #
 # make sure we build channel last
 #
