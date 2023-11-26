@@ -208,7 +208,8 @@
 compile_and_install foundation-gawk
 compile_and_install foundation-ant
 compile_and_install qrencode
-if [ "$OS_RELEASE" == "6" ] || [ "$OS_RELEASE" == "7" ]; then
+#if [ "$OS_RELEASE" == "6" ] || [ "$OS_RELEASE" == "7" ]; then
+if [ "$OS_RELEASE" == "6" ]; then
 	compile_and_install protobuf
 fi
 
