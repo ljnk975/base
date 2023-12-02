@@ -1,4 +1,4 @@
-RELEASE		= 0
+RELEASE		= UCR
 COLOR		= yellow
 
 REDHAT.ROOT	= $(CURDIR)
