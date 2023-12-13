@@ -21,10 +21,12 @@
 
 SHELL = /bin/bash
 DATEFMT =  $(shell date +%F)
+TIMEFMT =  $(shell date +%T)
+ZONEFMT =  $(shell date +%Z)
 #needs this to include proper version number
 -include $(ROLLSROOT)/etc/Rolls.mk
 
-.PHONY : base updates updated-dist updated-iso rebuild-iso roll-$(DISTRO)-$(VERSION)-update.xml
+.PHONY : base updates kernel updated-dist updated-iso rebuild-iso roll-$(DISTRO)-$(VERSION)-update.xml
 
 
 include version.mk
@@ -41,9 +43,6 @@ base: workdir
 	/opt/rocks/bin/rocks enable roll $(DISTRO)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(BASEPATH)/../..`
 
-
-
-
 # Mirror Updates, then add to distro
 updates: workdir cleanupdates
 	(cd $(WORKDIR) ;\
@@ -54,34 +53,58 @@ updates: workdir cleanupdates
 	/opt/rocks/bin/rocks enable roll Updates-$(DISTRO)-$(VERSION)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(UPDATESPATH)/../..`
 
+# Mirror experimental kernels, then add to distro
+kernel: workdir cleankernel
+	(cd $(WORKDIR) ;\
+	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(KERNELPATH) arch=$(ARCH) rollname=kernel-experimental-$(VERSION) version="`date +%F`" )
+	- /sbin/service httpd stop
+	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-kernel-experimental-$(VERSION)-*.$(ARCH).*.iso
+	-/sbin/service httpd start
+	/opt/rocks/bin/rocks enable roll $(DISTRO)-kernel-experimental-$(VERSION)
+	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(KERNELPATH)/../..`
 
 # Create the XML for creating an OS Roll with Updates
 roll-$(DISTRO)-$(VERSION)-update.xml:
 	sed -e 's/@DISTRO@/$(DISTRO)/g' -e 's/@VERSION@/$(VERSION)/g' -e 's/@DATE@/$(DATEFMT)/g' roll-distro-update.xml.in > roll-$(DISTRO)-$(VERSION)-update.xml 
-	
+
 # Create the updated distro
 updated-dist: roll-$(DISTRO)-$(VERSION)-update.xml
 	if [ -d rocks-dist ]; then /bin/rm -rf rocks-dist; fi
-	rocks create distro rolls="$(DISTRO),$(VERSION) Updates-$(DISTRO)-$(VERSION),$(DATEFMT)" 
+	rocks create distro rolls="$(DISTRO),$(VERSION) Updates-$(DISTRO)-$(VERSION),$(DATEFMT) $(DISTRO)-kernel-experimental-$(VERSION),$(DATEFMT)" 
+
+# Create Updates-experimental roll
+updates-experimental:
+	sed -e 's/@DISTRO@/$(DISTRO)/g' -e 's/@VERSION@/$(VERSION)/g' -e 's/@DATE@/$(DATEFMT)/g' \
+	-e 's/@TIME@/$(TIMEFMT)/g' -e 's/@ZONE@/$(ZONEFMT)/g' roll-updates-experimental.xml.in > roll-$(DISTRO)-$(VERSION)-update-experimental.xml 
+	if [ -d rocks-dist ]; then /bin/rm -rf rocks-dist; fi
+	rocks create distro rolls="Updates-$(DISTRO)-$(VERSION),$(DATEFMT) $(DISTRO)-kernel-experimental-$(VERSION),$(DATEFMT)" 
+	(cd rocks-dist/$(ARCH)/RedHat; \
+	rocks create roll ../../../roll-$(DISTRO)-$(VERSION)-update-experimental.xml; \
+	mv *iso $(WORKDIR) )
 
 ## This mirrors the OS base and and updates, creates a distro based upon those and then creates
 ## an ISO 
-updated-iso: base updates updated-dist rebuild-iso
+updated-iso: base updates kernel updated-dist rebuild-iso
 	echo "This is is the full mirror and build"
 
-## This rebuilds the updated-iso and assumes that  base, updates rolls are already downloaded and
+## This rebuilds the updated-iso and assumes that base, updates rolls are already downloaded and
 ## in the distro
 rebuild-iso: updated-dist
 	(cd rocks-dist/$(ARCH)/RedHat; \
 	 rocks create roll ../../../roll-$(DISTRO)-$(VERSION)-update.xml; \
 	 mv *iso ../../.. )
-	
 
 # Remove All Previous Updates Rolls
 cleanupdates: workdir
 	- /sbin/service httpd stop
 	- /opt/rocks/bin/rocks remove roll Updates-$(DISTRO)-$(VERSION) arch=$(ARCH)
 	- /bin/rm $(WORKDIR)/Updates-$(DISTRO)-$(VERSION)-*.$(ARCH).*.iso
+	- /sbin/service httpd start
+
+cleankernel: workdir
+	- /sbin/service httpd stop
+	- /opt/rocks/bin/rocks remove roll $(DISTRO)-kernel-experimental-$(VERSION) arch=$(ARCH)
+	- /bin/rm $(WORKDIR)/$(DISTRO)-kernel-experimental-$(VERSION)-*.$(ARCH).*.iso
 	- /sbin/service httpd start
 
 workdir:

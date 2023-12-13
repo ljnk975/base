@@ -15,16 +15,18 @@ endif
 ifeq ($(VERSION.MAJOR), 6)
 VERSION=6.8
 PKGS=Packages
-BASEPATH=$(VERSION)/os/$(ARCH)/$(PKGS)/
+BASEPATH=centos/$(VERSION)/os/$(ARCH)/$(PKGS)/
 endif
 ifeq ($(VERSION.MAJOR), 7)
 VERSION=7.9.2009
 PKGS=Packages
-BASEPATH=$(VERSION)/os/$(ARCH)/$(PKGS)/
+BASEPATH=centos/$(VERSION)/os/$(ARCH)/$(PKGS)/
 endif
 
-MIRRORURL=http://mirror1.hs-esslingen.de/Mirrors/centos
+MIRRORURL=http://mirror1.hs-esslingen.de/Mirrors
 
-UPDATESPATH=$(VERSION)/updates/$(ARCH)/$(PKGS)/
+UPDATESPATH=centos/$(VERSION)/updates/$(ARCH)/$(PKGS)/
+
+KERNELPATH=centos-altarch/$(VERSION)/experimental/$(ARCH)/$(PKGS)/
 
 ROLLNAME=CentOS-$(VERSION)-Updated
