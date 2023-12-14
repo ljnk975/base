@@ -28,8 +28,10 @@ ZONEFMT =  $(shell date +%Z)
 
 .PHONY : base updates kernel updated-dist updated-iso rebuild-iso roll-$(DISTRO)-$(VERSION)-update.xml
 
-
 include version.mk
+# Good???
+# include rocks-version-common.mk
+
 WORKDIR = /tmp/OSROLL
 default: updates 
 
@@ -72,15 +74,24 @@ updated-dist: roll-$(DISTRO)-$(VERSION)-update.xml
 	if [ -d rocks-dist ]; then /bin/rm -rf rocks-dist; fi
 	rocks create distro rolls="$(DISTRO),$(VERSION) Updates-$(DISTRO)-$(VERSION),$(DATEFMT) $(DISTRO)-kernel-experimental-$(VERSION),$(DATEFMT)" 
 
+# --- Experimental --- trying to merge content of kernel-experimental roll into Updates roll
 # Create Updates-experimental roll
+# does not work yet - just saved here fur future fixes
 updates-experimental:
 	sed -e 's/@DISTRO@/$(DISTRO)/g' -e 's/@VERSION@/$(VERSION)/g' -e 's/@DATE@/$(DATEFMT)/g' \
 	-e 's/@TIME@/$(TIMEFMT)/g' -e 's/@ZONE@/$(ZONEFMT)/g' roll-updates-experimental.xml.in > roll-$(DISTRO)-$(VERSION)-update-experimental.xml 
 	if [ -d rocks-dist ]; then /bin/rm -rf rocks-dist; fi
-	rocks create distro rolls="Updates-$(DISTRO)-$(VERSION),$(DATEFMT) $(DISTRO)-kernel-experimental-$(VERSION),$(DATEFMT)" 
+#	create pure Updates distro in default dir rocks-dist
+	rocks create distro rolls="Updates-$(DISTRO)-$(VERSION),$(DATEFMT)" 
+	if [ -d kernel-exp ]; then /bin/rm -rf kernel-exp; fi
+#	create separate exp. kernel distro in another dir
+	rocks create distro dist="kernel-exp" rolls="$(DISTRO)-kernel-experimental-$(VERSION),$(DATEFMT)"
+#	move symbolic links to rocks-dist/$(ARCH)/RedHat/RPMS
+	mv kernel-exp/$(ARCH)/RedHat/RPMS/*.rpm rocks-dist/$(ARCH)/RedHat/RPMS
 	(cd rocks-dist/$(ARCH)/RedHat; \
 	rocks create roll ../../../roll-$(DISTRO)-$(VERSION)-update-experimental.xml; \
 	mv *iso $(WORKDIR) )
+# --- Experimental ---
 
 ## This mirrors the OS base and and updates, creates a distro based upon those and then creates
 ## an ISO 
