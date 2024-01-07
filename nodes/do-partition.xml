@@ -61,7 +61,7 @@ hostname &hostname;.local
 chmod a+x /tmp/product/do_partition.py
 </pre>
 
-<pre cond="rocks_version_major == 7">
+<pre cond="rocks_version_major &gt;= 7">
 	/opt/rocks/bin/python /opt/rocks/lib/python2.7/site-packages/rocks/do_partition.py &gt; /tmp/partition-info
 </pre>
 

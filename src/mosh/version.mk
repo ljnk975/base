@@ -1,8 +1,8 @@
-PKGROOT		= /usr
+PKGROOT		= /opt/rocks
 NAME    	= mosh
-VERSION 	= 1.2.4
+VERSION 	= 1.4.0
 RELEASE 	= 1
 TARBALL_POSTFIX	= tar.gz
 RPM.FILES 	= \
-/usr/bin/* \\n \
-/usr/share/man/man1/*
+/opt/rocks/bin/* \\n \
+/opt/rocks/share/man/man1/*

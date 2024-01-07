@@ -112,8 +112,8 @@ CFLAGS		= -g
 
 ifeq ($(OS), linux)
 CFLAGS		+= -Wall 
-CPPFLAGS	= -I/opt/rocks/include
-LDFLAGS		= -L/opt/rocks/lib -lrocks -lwrap
+CPPFLAGS	= -I/opt/rocks/include -I/usr/include/tirpc -UHAVE_IPV6
+LDFLAGS		= -L/opt/rocks/lib -lrocks -lwrap -ltirpc
 
 ifeq ($(strip $(VERSION.MAJOR)), 6)
 #Centos 6.* libtirpc-0.2.1 are bugged cannot get return value from the server
@@ -165,7 +165,7 @@ install:: build
 	$(INSTALL) -m$(SCRIPTMODE) $(SCRIPTSRC) $(ROOT)/$(SCRIPTDEST)/$(SCRIPT)
 
 clean::
-	-rm *.o
-	-rm channeld 411-alert 411-alert-handler
-	-rm channel_svc.c channel.h
-	-rm channel_clnt.c channel_xdr.c
+	-rm -f *.o
+	-rm -f channeld 411-alert 411-alert-handler
+	-rm -f channel_svc.c channel.h
+	-rm -f channel_clnt.c channel_xdr.c

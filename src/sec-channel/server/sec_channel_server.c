@@ -117,8 +117,13 @@ tcpd_allowed(struct svc_req *rqstp)
 	static char remhost[1024];
 	int result;
 
+	// https://gist.github.com/xuesongbj/81911c7e72d67aa2ef54e62632d7d8a8
+	char addr_str[INET6_ADDRSTRLEN];
+
 	assert(rqstp);
 	assert(rqstp->rq_xprt);
+	inet_ntop(AF_INET6, &(rqstp->rq_xprt->xp_raddr.sin6_addr),
+                  addr_str, INET6_ADDRSTRLEN);
 
 	/* get the hostname from the IP */
 	result = getnameinfo((struct sockaddr *) &(rqstp->rq_xprt->xp_raddr), 
@@ -127,22 +132,19 @@ tcpd_allowed(struct svc_req *rqstp)
 
 	/* stop here if getnameinfo blew up */
 	if( result && result != EAI_AGAIN && result != EAI_NONAME ) {
-		syslog(LOG_DEBUG,"getnameinfo(%s) failed: %s",
-		       inet_ntoa(rqstp->rq_xprt->xp_raddr.sin_addr),
+		syslog(LOG_DEBUG,"getnameinfo(%s) failed: %s", addr_str,
 		       strerror(result));
 		return 0;
 	}
 
 	/* do the libwrap check */
-	result = hosts_ctl(SERVICE_NAME, remhost,
-	                   inet_ntoa(rqstp->rq_xprt->xp_raddr.sin_addr),
+	result = hosts_ctl(SERVICE_NAME, remhost, addr_str,
 		           STRING_UNKNOWN);
 	if ( result ) return result; 
        
 	/* report failures */
 	syslog(LOG_DEBUG,"hosts_ctl(\"%s\",%s,%s) rejected connection",
-	       SERVICE_NAME, remhost,
-  	       inet_ntoa(rqstp->rq_xprt->xp_raddr.sin_addr));
+	       SERVICE_NAME, remhost, addr_str);
  
        return 0;
 } /* tcpd_allowed */

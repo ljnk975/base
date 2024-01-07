@@ -53,7 +53,7 @@ this also includes changes to help build and configure VMs for V.
 chmod a+x /tmp/product/record_partitions.py
 /tmp/product/record_partitions.py
 </post>
-<post os='linux' cond="rocks_version_major == 7" arg="--nochroot">
+<post os='linux' cond="rocks_version_major &gt;= 7" arg="--nochroot">
 PYTHONPATH=/tmp /opt/rocks/bin/python /opt/rocks/lib/python2.7/site-packages/rocks/record_partitions.py
 </post>
 

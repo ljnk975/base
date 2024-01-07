@@ -448,7 +448,7 @@
 <install>
 %include /tmp/partition-info
 </install>
-<reboot cond="rocks_version_major == 7"/>
+<reboot cond="rocks_version_major &gt;= 7"/>
 
 <lang>&Kickstart_Lang;</lang>
 <keyboard>&Kickstart_Keyboard;</keyboard>
@@ -481,8 +481,8 @@
 <url cond="rocks_version_major == 6"> --url http://&Kickstart_PrivateKickstartHost;/&Kickstart_PrivateKickstartBasedir;/&distribution;/&arch; </url>
 
 <!-- URL. Variable UseTracker governs whether to utilize the tracker or not -->
-<url cond="rocks_version_major == 7 and UseTracker"> --url http://127.0.0.1/&Kickstart_PrivateKickstartBasedir;/&distribution;/&arch; </url>
-<url cond="rocks_version_major == 7 and not UseTracker"> --url http://&Kickstart_PrivateKickstartHost;/&Kickstart_PrivateKickstartBasedir;/&distribution;/&arch; </url>
+<url cond="rocks_version_major &gt;= 7 and UseTracker"> --url http://127.0.0.1/&Kickstart_PrivateKickstartBasedir;/&distribution;/&arch; </url>
+<url cond="rocks_version_major &gt;= 7 and not UseTracker"> --url http://&Kickstart_PrivateKickstartHost;/&Kickstart_PrivateKickstartBasedir;/&distribution;/&arch; </url>
 
 <interactive cond="rocks_version_major == 6"/>
 
@@ -503,7 +503,7 @@
 
   <!-- key libraries for dynamically linked executable-->
   <package>libgcc</package>
-  <package>compat-libf2c-34</package>
+  <package>f2c-libs</package>
   <package>libgfortran</package>
   <package>libobjc</package>
 
@@ -515,9 +515,9 @@
 
   <package os="linux">sysstat</package>
   <package os="linux">environment-modules</package>
-  <package cond="rocks_version_major == 7">net-tools</package>
-  <package cond="rocks_version_major == 7">sed</package>
-  <package cond="rocks_version_major == 7">sqlite</package>
+  <package cond="rocks_version_major &gt;= 7">net-tools</package>
+  <package cond="rocks_version_major &gt;= 7">sed</package>
+  <package cond="rocks_version_major &gt;= 7">sqlite</package>
 
 <pre>
 
@@ -574,12 +574,12 @@ chmod 600 /tmp/authorized_keys
 </pre>
 
 <!-- for rocks version 7 use anaconda's ssh daemon, but protect it -->
-<pre cond="rocks_version_major == 7">
+<pre cond="rocks_version_major &gt;= 7">
 if [ ! -d /root/.ssh ]; then mkdir -p /root/.ssh; fi 
 chmod 700 /root/.ssh
 mv /tmp/authorized_keys /root/.ssh
 </pre>
-<main cond="rocks_version_major == 7">
+<main cond="rocks_version_major &gt;= 7">
 <sshpw>--username root --iscrypted <eval>/opt/rocks/sbin/gen_root_pw</eval></sshpw>
 <eula>--agreed</eula>
 <firstboot>--disable</firstboot>
@@ -684,53 +684,7 @@ chmod o+t /state/partition*
 
 
 <post os="linux">
-
-<!--
-	libgcj lays down a dummy 'java' executible, so let's nuke it.
-	this makes sure that the real java (included in this roll) is used
--->
-rm -f /usr/bin/java
-
-<file name="/etc/man.config" mode="append">
-MANPATH /usr/java/latest/man
-</file>
-
-<file name="/etc/profile.d/java.sh" perms="0755">
-export JAVA_HOME=/usr/java/latest
-BIN=${JAVA_HOME}/bin
-
-if [ -d ${BIN} ]; then
-	if ! echo ${PATH} | /bin/grep -q ${BIN} ; then
-        	export PATH=${PATH}:${BIN}
-	fi
-fi
-</file>
-
-<file name="/etc/profile.d/java.csh" perms="0755">
-setenv JAVA_HOME /usr/java/latest
-set BIN=${JAVA_HOME}/bin
-
-if ( -d ${BIN}  ) then
-	echo ${PATH} | /bin/grep -q ${BIN} 
-	if ( $? != 0) then
-        	setenv PATH "${PATH}:${BIN}"
-	endif
-endif
-</file>
-
-<!-- Enable Java Plugins for Firefox (Mozilla) --> 
-for i in `find -L /usr/java/latest -name 'libnpjp2*so'`; do 
-	echo $i | grep 64 > /dev/null 
-	if [ $? = 0 ]; then 
-		MOZPATH=/usr/lib64/mozilla/plugins 
-	else 
-		MOZPATH=/usr/lib/mozilla/plugins
-	fi 
-
-	if [ -d $MOZPATH ]; then
-		ln -s $i $MOZPATH
-	fi
-done
+<!-- removed old java stuff -->
 </post>
 
 

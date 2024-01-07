@@ -383,7 +383,9 @@ install::
 	cp /bin/gawk $(ROOT)/$(PKGROOT)/rocks/bin/
 	cp /bin/stty $(ROOT)/$(PKGROOT)/rocks/bin/
 	cp /bin/dd $(ROOT)/$(PKGROOT)/rocks/bin/
-ifneq ($(strip $(VERSION.MAJOR)), 7)
+# ROCKS8
+# There is no /usr/bin/volname in Rocky8
+ifneq ($(strip $(VERSION.MAJOR)), 8)
 	cp /usr/bin/volname $(ROOT)/$(PKGROOT)/rocks/bin/
 endif
 	cp /usr/bin/killall $(ROOT)/$(PKGROOT)/rocks/bin/

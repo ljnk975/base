@@ -8,7 +8,6 @@ Install fail2ban on node with public connection
 <!-- fail2ban package comes from epel reporsitory and it is downloaded
      at built time by src/yum-extras/Makefile
      -->
-<package>python-inotify</package>
 <package>fail2ban</package>
 
 <configure cond="rocks_version_major == 6" phase="post,reconfigure">
@@ -21,7 +20,7 @@ sed -i 's/\(^ignoreip = 127.0.0.1\/8.*$\)/\1 &Kickstart_PrivateNetwork;\/&Kickst
 sed  -i 's/\([ ]*sendmail-whois.*\)/#\1/' /etc/fail2ban/jail.conf
 </post>
 
-<post cond="rocks_version_major == 7">
+<post cond="rocks_version_major &gt;= 7">
 <file name="/etc/fail2ban/jail.local">
 [DEFAULT]
 bantime = 900

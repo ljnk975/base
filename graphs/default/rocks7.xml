@@ -1,6 +1,6 @@
 <!-- Edges specific to Rocks Version 7 -->
 <graph>
-	<edge cond="rocks_version_major == 7" from="server" to="x11-server"/>
-	<edge cond="rocks_version_major == 7" from="server" to="profile-server"/>
-	<edge cond="rocks_version_major == 7" from="server" to="homepage"/>
+	<edge cond="rocks_version_major &gt;= 7" from="server" to="x11-server"/>
+	<edge cond="rocks_version_major &gt;= 7" from="server" to="profile-server"/>
+	<edge cond="rocks_version_major &gt;= 7" from="server" to="homepage"/>
 </graph>

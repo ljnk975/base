@@ -76,7 +76,11 @@
   Olli-Pekka Lehto at Cluster2004.
 
   </changelog>
-<package cond="rocks_version_major == 7">iptables-services</package>
+<!--
+ROCKS8:ROCKS9: iptables is deprecated in Rocky9
+https://docs.rockylinux.org/pt/guides/security/enabling_iptables_firewall/
+-->
+<package cond="rocks_version_major &gt;= 7">iptables-services</package>
 
 <post cond="rocks_version_major == 6" os='linux'>
 <!-- configure and turn on iptables -->
@@ -84,7 +88,7 @@
 /sbin/chkconfig ip6tables on
 </post>
 
-<post cond="rocks_version_major == 7" os='linux'>
+<post cond="rocks_version_major &gt;= 7" os='linux'>
 <!-- configure and turn on iptables -->
 /usr/bin/systemctl mask firewalld
 /usr/bin/systemctl enable iptables

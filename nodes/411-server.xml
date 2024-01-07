@@ -261,7 +261,8 @@ make -C /var/411 &gt; /dev/null
 /sbin/chkconfig sec-channel on
 </post>
 
-<post cond="rocks_version_major == 7">
+<!-- ROCKS8 -->
+<post cond="rocks_version_major &gt;= 7">
 /usr/bin/systemctl enable rpcbind
 /usr/bin/systemctl enable sec-channel 
 </post>

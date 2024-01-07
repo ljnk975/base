@@ -146,7 +146,7 @@ fi
 /sbin/chkconfig named on
 </post>
 
-<post cond="rocks_version_major == 7">
+<post cond="rocks_version_major &gt;= 7">
 /usr/bin/systemctl enable named 
 </post>
 </kickstart> 

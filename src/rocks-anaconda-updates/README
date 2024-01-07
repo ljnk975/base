@@ -1,0 +1,7 @@
+Old CentOS comps: https://git.centos.org/centos/comps/tree/master
+
+comps.xml is the full package: c7-x86_64-comps.xml (but from CentOS 7.4 as git log says)
+
+Rocky comps: https://git.rockylinux.org/rocky/comps
+
+Used in here: https://git.rockylinux.org/rocky/comps/-/raw/main/comps-rocky-8.9.xml , downloaded Mon Jan  1 17:38:41 CET 2024

@@ -197,7 +197,7 @@
 
 -include $(ROCKSROOT)/etc/rocks-version.mk
 
-SRCDIRS = `find . -type d -maxdepth 1 \
+SRCDIRS = `find . -maxdepth 1 -type d \
 	-not -name CVS \
 	-not -name . \
 	-not -name rocks-pxe \
@@ -211,6 +211,11 @@ SRCDIRS = `find . -type d -maxdepth 1 \
 	-not -name foundation-python-xml-26 \
 	-not -name developersguiderst \
 	-not -name protobuf \
+	-not -name foundation-gawk \
+	-not -name phpMyAdmin \
+	-not -name piece-pipe \
+	-not -name java \
+	-not -name rocks-java \
 	-not -name channel`
 
 ## Build environment modules on 5, it is part of 6 in the OS
@@ -222,10 +227,6 @@ endif
 ifeq ($(VERSION.MAJOR),6)
 SRCDIRS += firerox protobuf
 endif
-## protobuf for 7 (problems with mosh)
-#ifeq ($(VERSION.MAJOR),7)
-#SRCDIRS += protobuf
-#endif
 #
 # make sure we build channel last
 #
@@ -241,3 +242,9 @@ endif
 ifeq ($(VERSION.MAJOR), 7)
 SRCDIRS += rocks-anaconda-updates 
 endif
+
+# ROCKS8
+ifeq ($(VERSION.MAJOR), 8)
+SRCDIRS += rocks-anaconda-updates 
+endif
+

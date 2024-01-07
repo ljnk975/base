@@ -1,0 +1,8 @@
+tcp_wrappers for Rocky8
+-----------------------
+- Required for channel (a.k.a. rocks-channel).
+- Included in EPEL 8, but for whatever reason without tcp_wrappers-devel package.
+- Therefore, rebuild for ROCKS8 with modified SPEC-file.
+- Source: https://dl.fedoraproject.org/pub/epel/8/Everything/SRPMS/Packages/t/tcp_wrappers-7.6-96.el8.src.rpm
+- tcp_wrappers.spec.in triggers the old Rocks build style with provided spec files (see Rules-linux-centos.mk).
+- Current RPM-release is 97 (in orde to superseed the original tcp_wrappers-7.6-96 from EPEL 8).

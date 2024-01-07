@@ -145,8 +145,16 @@
   <package type="meta" cond="rocks_version_major == 7">gnome-desktop</package>
   <package type="meta" cond="rocks_version_major == 7">desktop-debugging</package>
 
+  <!-- ROCKS8: X11 Groups from Rocky 8
+  see also base/src/rocks-anaconda-updates/comps.xml
+  -->
+  <package type="meta" cond="rocks_version_major == 8">base-x</package>
+  <package type="meta" cond="rocks_version_major == 8">gnome-desktop</package>
+  <package type="meta" cond="rocks_version_major == 8">desktop-debugging</package>
+
   <!-- support packages used to configure X -->
   <package>pygtk2</package>
+  <!-- ROCKS8:FIXME: no pygtk2-libglade in Rocky8. Problem? -->
   <package>pygtk2-libglade</package>
 
 <post cond="rocks_version_major == 6">

@@ -1,8 +1,8 @@
 PKGROOT		= /opt
 NAME    	= pdsh
-VERSION 	= 2.26
+VERSION 	= 2.34
 RELEASE 	= 1
-TARBALL_POSTFIX	= tar.bz2
+TARBALL_POSTFIX	= tar.gz
 RPM.FILES 	= \
 /etc/ld.so.conf.d/* \\n \
 /etc/profile.d/* \\n \

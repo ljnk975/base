@@ -1,0 +1,4 @@
+ROCKS8: simply copied 7 to 8 without deeper understanding on the use...
+
+These files are copied with CPIO command to subdirs graphs, includes, nodes during base roll build.
+The file naming still appears weird.

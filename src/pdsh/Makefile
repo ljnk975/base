@@ -75,13 +75,20 @@
 #
 
 REDHAT.ROOT = $(CURDIR)/../../
-
+HTTPGET     = $(ROCKSROOT)/bin/httpget.sh
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
 
 build:
-	bunzip2 -c $(NAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
+# ROCKS8 - bump to 2.34 (same as on Rocky8)
+# Rocky supplied pdsh is an EPEL-package -> need to build it here, EPEL is not part of OS rolls
+# https://src.fedoraproject.org/repo/pkgs/pdsh/pdsh-2.34.tar.gz/sha512/6007a6048e088f28b052db6d5c3cc410ae4b75898c1f0f9e6945c6091d37fdfd2d84e5531159eb3f98da573f55f79a6a4d90e16ac4373a2f5b4cda255542a047/pdsh-2.34.tar.gz
+ifeq ($(shell ! test -f $(NAME)-$(VERSION).$(TARBALL_POSTFIX) && echo -n yes),yes)
+	@echo "ROCKS8: Sideloading $(NAME)-$(VERSION).$(TARBALL_POSTFIX)."
+	$(HTTPGET) -B https://src.fedoraproject.org -F repo/pkgs/pdsh/pdsh-2.34.tar.gz/sha512/6007a6048e088f28b052db6d5c3cc410ae4b75898c1f0f9e6945c6091d37fdfd2d84e5531159eb3f98da573f55f79a6a4d90e16ac4373a2f5b4cda255542a047 -n $(NAME)-$(VERSION).$(TARBALL_POSTFIX)
+endif
+	gunzip -c $(NAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
 	( 							\
 		cd $(NAME)-$(VERSION);				\
 		./configure --prefix=$(PKGROOT)/$(NAME)		\

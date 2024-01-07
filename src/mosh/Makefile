@@ -56,16 +56,24 @@
 #
 
 REDHAT.ROOT = $(CURDIR)/../../
-
+HTTPGET     = $(ROCKSROOT)/bin/httpget.sh
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
 
 build:
+# ROCKS8 - bump to 1.4.0 (same as on Rocky8)
+# Rocky supplied mosh is an EPEL-package -> need to build it here, EPEL is not part of OS rolls
+# Link against OpenSSL lib from foundation-openssl-old
+# https://src.fedoraproject.org/lookaside/extras/mosh/mosh-1.4.0.tar.gz/sha512/38c11f52ff1e42965b50a22bf6de80b0fa8ebbff841d825e760abf69c788a2bf5f34e6f7fc047574d595118334eef9edf8da5520b52cdde3ac1a79d7ad70312e/mosh-1.4.0.tar.gz
+ifeq ($(shell ! test -f $(NAME)-$(VERSION).$(TARBALL_POSTFIX) && echo -n yes),yes)
+	@echo "ROCKS8: Sideloading $(NAME)-$(VERSION).$(TARBALL_POSTFIX)."
+	$(HTTPGET) -B https://src.fedoraproject.org -F lookaside/extras/mosh/mosh-1.4.0.tar.gz/sha512/38c11f52ff1e42965b50a22bf6de80b0fa8ebbff841d825e760abf69c788a2bf5f34e6f7fc047574d595118334eef9edf8da5520b52cdde3ac1a79d7ad70312e -n $(NAME)-$(VERSION).$(TARBALL_POSTFIX)
+endif
 	zcat $(NAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
 	( 							\
 		cd $(NAME)-$(VERSION);				\
-		./configure  --prefix=$(PKGROOT);		\
+		PKG_CONFIG_PATH=/opt/rocks/lib/pkgconfig:$$PKG_CONFIG_PATH LDFLAGS="-ldl" ./configure  --prefix=$(PKGROOT);		\
 		$(MAKE);					\
 	)
 	

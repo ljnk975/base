@@ -105,7 +105,7 @@
 /sbin/chkconfig nfs on
 </post>
 
-<post cond="rocks_version_major == 7">
+<post cond="rocks_version_major &gt;= 7">
 /usr/bin/systemctl enable nfs 
 </post>
 

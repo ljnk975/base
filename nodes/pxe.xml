@@ -192,9 +192,9 @@ initial release
 <package>xinetd</package>
 <package>memtest86+</package>
 <package>pxeflash</package>
-<package cond="rocks_version_major == 7">rocks-boot-pxe</package>
-<package cond="rocks_version_major == 7">shim</package>
-<package cond="rocks_version_major == 7">grub2-efi</package>
+<package cond="rocks_version_major &gt;= 7">rocks-boot-pxe</package>
+<package cond="rocks_version_major &gt;= 7">shim</package>
+<package cond="rocks_version_major &gt;= 7">grub2-efi-x64</package>
 
 
 <post>

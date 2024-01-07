@@ -49,7 +49,8 @@ save the frontend's partitions in the database.
 
 </changelog>
 <package cond="rocks_version_major == 7">python-blivet</package>
-
+<!-- ROCKS8 -->
+<package cond="rocks_version_major &gt;= 8">foundation-python-blivet</package>
 
 <post arg="--nochroot">
 if [ -f /tmp/discovered.disks ]; then 
@@ -72,7 +73,7 @@ chmod a+x record_partitions.py
 rm -f /etc/rc.d/rocksconfig.d/post-05-record-partitions
 </file>
 
-<file cond="rocks_version_major == 7" name="/etc/rc.d/rocksconfig.d/post-05-record-partitions" perms="755">
+<file cond="rocks_version_major &gt;= 7" name="/etc/rc.d/rocksconfig.d/post-05-record-partitions" perms="755">
 #!/bin/bash
 PYTHONPATH=/tmp /opt/rocks/bin/python /opt/rocks/lib/python2.7/site-packages/rocks/record_partitions.py
 rm -f /etc/rc.d/rocksconfig.d/post-05-record-partitions

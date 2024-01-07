@@ -205,18 +205,22 @@
 
 . $ROLLSROOT/etc/bootstrap-functions.sh || exit 1
 
-compile_and_install foundation-gawk
+# compile_and_install foundation-gawk
 compile_and_install foundation-ant
 compile_and_install qrencode
-#if [ "$OS_RELEASE" == "6" ] || [ "$OS_RELEASE" == "7" ]; then
 if [ "$OS_RELEASE" == "6" ]; then
 	compile_and_install protobuf
 fi
 
-compile java
-install jdk 
+# ROCKS8
+compile tcp_wrappers
+install tcp_wrappers-libs
+install tcp_wrappers
+install tcp_wrappers-devel
+#compile java
+#install jdk 
 
-compile_and_install rocks-java
+#compile_and_install rocks-java
 
 if [ `./_os` == "linux" ]; then
 	OS_RELEASE=`lsb_release -rs  | cut -d . -f 1`	
@@ -236,9 +240,11 @@ if [ `./_os` == "linux" ]; then
 	ignore_os_package openssh-clients
 	ignore_os_package openssh-server
 	ignore_os_package openssh-askpass
-	install_os_packages server
+	# next command fails. There is no server.xml node in base roll
+	# install_os_packages server
 	bootstrap_py_init
 	install_os_packages bootstrap-packages-base
 fi
 
-make -C OSROLL TMPDIR=/tmp base updates
+# ROCKS8:FIXME: separately in rockyrolls.sh for the moment
+# make -C OSROLL TMPDIR=/tmp baseos appstream devel extras powertools

@@ -83,6 +83,9 @@ include Rules.mk
 ifeq ($(OS),sunos)
 CFLAGS=-lnsl
 endif
+ifeq ($(OS),linux)
+CFLAGS += -I/usr/include/tirpc -ltirpc
+endif
 
 sec_channel_clnt.c: sec_channel.x
 	rpcgen -C -M -N $<

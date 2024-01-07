@@ -12,3 +12,8 @@ ifeq ($(VERSION.MAJOR),7)
 REPORPMS.NOARCH += epel-release-7-11.noarch.rpm
 FAIL2BAN.PKGS = fail2ban fail2ban-firewalld fail2ban-sendmail fail2ban-server python-inotify
 endif
+# ROCKS8
+ifeq ($(VERSION.MAJOR),8)
+REPORPMS.NOARCH = epel-release-8-19.el8.noarch.rpm
+FAIL2BAN.PKGS = fail2ban fail2ban-firewalld fail2ban-sendmail fail2ban-server fail2ban-selinux
+endif

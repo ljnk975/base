@@ -163,8 +163,9 @@ install::
 
 
 
-build:
+build::
 	gunzip -c apache-ant-$(VERSION)-bin.tar.gz | $(TAR) -xf -
+	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ../
 
 clean::
 	rm -rf apache-ant-$(VERSION)

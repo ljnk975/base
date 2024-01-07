@@ -68,6 +68,7 @@
 #
 
 REDHAT.ROOT     = $(CURDIR)/../../
+HTTPGET         = $(ROCKSROOT)/bin/httpget.sh
 MAKE.iscontrib	= 1
 
 -include $(ROCKSROOT)/etc/Rules.mk
@@ -81,17 +82,31 @@ EPEL_RPM = $(shell for i in $(REPORPMS.NOARCH);do echo $$i | grep epel; done)
 #evaluate to true if it is installed when this script runs
 IS_EPEL_INSTALLED = $(shell rpm -qa |grep epel)
 
+# ROCKS8: yumdownloader replaced by dnf download.
+# https://fedoraproject.org/wiki/Yum_to_DNF_Cheatsheet
+
 rpm::	build
 	# you are wondering why this mess?
-	# if we are builing on a bare Centos we need to install epel to download
+	# if we are builing on a bare Rocky we need to install epel to download
 	# fail2ban but then we have to remove it
 	# if we are on a Rocks node we don't need to install it
 	test "$(IS_EPEL_INSTALLED)" || rpm -Uvh $(EPEL_RPM);
-	yumdownloader --enablerepo=epel --destdir=$(REDHAT.RPMS)/noarch $(FAIL2BAN.PKGS);
+	dnf download --enablerepo=epel --destdir=$(REDHAT.RPMS)/noarch $(FAIL2BAN.PKGS);
 	test "$(IS_EPEL_INSTALLED)" || rpm -ev $(EPEL_RPM:.rpm=);
+ifdef REPORPMS
 	-cp $(REPORPMS) $(REDHAT.RPMS)/$(ARCH)/
-	-cp $(REPORPMS.NOARCH) $(REDHAT.RPMS)/$(ARCH)/
+endif
+ifdef REPORPMS.NOARCH
+	-cp $(REPORPMS.NOARCH) $(REDHAT.RPMS)/noarch/
+endif
+	-chmod go+r $(REDHAT.RPMS)/noarch/*rpm
 	-chmod go+r $(REDHAT.RPMS)/$(ARCH)/*rpm
 build:
+# ROCKS8
+# https://mirrors.xtom.de/epel/8/Everything/x86_64/Packages/e/epel-release-8-19.el8.noarch.rpm
+ifeq ($(shell ! test -f epel-release-8-19.el8.noarch.rpm && echo -n yes),yes)
+	@echo "ROCKS8: Sideloading epel-release-8-19.el8.noarch.rpm."
+	$(HTTPGET) -B https://dl.fedoraproject.org -F pub/epel/8/Everything/x86_64/Packages/e -n epel-release-8-19.el8.noarch.rpm
+endif
 	mkdir -p $(REDHAT.RPMS)/$(ARCH)/
 	mkdir -p $(REDHAT.RPMS)/noarch/

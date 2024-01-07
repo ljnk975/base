@@ -6,7 +6,7 @@
 #include "sec_channel.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <rpc/pmap_clnt.h>
+#include <tirpc/rpc/pmap_clnt.h>
 #include <string.h>
 #include <memory.h>
 #include <sys/socket.h>

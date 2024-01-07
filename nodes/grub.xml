@@ -161,9 +161,10 @@
 
 
 <package os='linux' cond="rocks_version_major == 6">grub</package>
-<package os='linux' cond="rocks_version_major == 7">grub2</package>
-<package os='linux' cond="rocks_version_major == 7">grub2-efi</package>
-<package os='linux' cond="rocks_version_major == 7">grub2-tools</package>
+<package os='linux' cond="rocks_version_major &gt;= 7">grub2</package>
+<package os='linux' cond="rocks_version_major &gt;= 7">grub2-efi-x64</package>
+<package os='linux' cond="rocks_version_major &gt;= 7">grub2-tools</package>
+<package os='linux' cond="rocks_version_major &gt;= 7">grub2-common</package>
 
 <post os='linux'>
 

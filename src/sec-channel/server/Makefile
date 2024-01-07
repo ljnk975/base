@@ -80,8 +80,8 @@ REDHAT.ROOT =	$(CURDIR)/../../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-CFLAGS += -DSERVICE_NAME=\"sec_channel_server\"
-CFLAGS += -lwrap
+CFLAGS += -DSERVICE_NAME=\"sec_channel_server\" -I/usr/include/tirpc
+CFLAGS += -lwrap -ltirpc
 
 sec_channel.h:sec_channel.x
 	rpcgen -h -N -o $@ $^

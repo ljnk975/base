@@ -68,7 +68,7 @@
 
   </changelog>
 
-  <package cond="rocks_version_major > 5">libotf</package>
+  <package cond="rocks_version_major &gt; 5">libotf</package>
   <package type="meta">Emacs</package>
 
 </kickstart> 

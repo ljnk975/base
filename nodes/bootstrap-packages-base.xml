@@ -67,8 +67,7 @@
 	
 	</changelog>
 
-	<package os="linux">alsa</package>
-	<package os="linux">alsa-devel</package>
+	<package os="linux">alsa-lib</package>
 	<package os="linux">alsa-lib-devel</package>
 	<package os="linux">atk-devel</package>
 	<package os="linux">apr</package>
@@ -77,7 +76,6 @@
 	<package os="linux">audit-libs-devel</package>
 	<package os="linux">beecrypt-devel</package>
 	<package os="linux">binutils-devel</package>
-	<package os="linux">booty</package>
 	<package os="linux">bzip2-devel</package>
 	<package os="linux">cmake</package>
 	<package os="linux">dbus-devel</package>
@@ -91,23 +89,16 @@
 	<package os="linux">glibc-static</package>
 	<package os="linux">gtk2-devel</package>
 	<package os="linux">gdk-pixbuf2-devel</package>
-	<package os="linux">gtk+-devel</package>
 	<package os="linux">intltool</package>
 	<package os="linux">isomd5sum-devel</package>
 	<package os="linux">jadetex</package>
-	<package os="linux">kudzu-devel</package>
 	<package os="linux">libarchive-devel</package>
 	<package os="linux">libblkid-devel</package>
 	<package os="linux">libcurl-devel</package>
-	<package os="linux">libdhcp-devel</package>
-	<package os="linux">libdhcp4client</package>
-	<package os="linux">libdhcp4client-devel</package>
-	<package os="linux">libdhcp6client</package>
-	<package os="linux">libdhcp6client-devel</package>
 	<package os="linux">libICE-devel</package>
 	<package os="linux">libIDL-devel</package>
 	<package os="linux">iscsi-initiator-utils-devel</package>
-	<package os="linux">libnl-devel</package>
+	<package os="linux">libnl3-devel</package>
 	<package os="linux">libSM-devel</package>
 	<package os="linux">libXaw</package>
 	<package os="linux">libXaw-devel</package>
@@ -121,11 +112,8 @@
 	<package os="linux">libXpm-devel</package>
 	<package os="linux">libXt-devel</package>
 	<package os="linux">libXxf86misc-devel</package>
-	<package os="linux">mkinitrd-devel</package>
-	<package os="linux" cond="rocks_version_major == 6">mysql-devel</package>
-	<package os="linux" cond="rocks_version_major == 7">mariadb-devel</package>
-	<package os="linux">NetworkManager-devel</package>
-	<package os="linux">NetworkManager-glib-devel</package>
+	<package os="linux">dracut</package>
+	<package os="linux">mariadb-devel</package>
 	<package os="linux">newt-devel</package>
 	<package os="linux">nspr-devel</package>
 	<package os="linux">openjade</package>
@@ -134,10 +122,8 @@
 	<package os="linux">pango-devel</package>
 	<package os="linux">pcre-devel</package>
 	<package os="linux">pciutils-devel</package>
-	<package os="linux" cond="rocks_version_major == 7">protobuf-devel</package>
-	<package os="linux">pycairo-devel</package>
+	<package os="linux">protobuf-devel</package>
 	<package os="linux">pykickstart</package>
-	<package os="linux">python-devel</package>
 	<package os="linux">readline-devel</package>
 	<package os="linux">slang-devel</package>
 	<package os="linux">squashfs-tools</package>
@@ -145,7 +131,6 @@
 	<package os="linux">syslinux-perl</package>
 	<package os="linux">tcl</package>
 	<package os="linux">tcl-devel</package>
-	<package os="linux">tclx</package>
 	<package os="linux">telnet</package>
 	<package os="linux">tcp_wrappers-devel</package>
 	<!-- TeX support - package name changed from 6 to 7 -->
@@ -156,7 +141,6 @@
 	<package os="linux" cond="not (version &gt;= 7)">docbook-utils-pdf</package>
 	<package os="linux" cond=" version &gt;= 7">tex</package>
 	<package os="linux" cond="version &gt;= 7">texlive</package>
-	<package os="linux" cond="version &gt;= 7">texlive-fonts</package>
 	<package os="linux" cond="version &gt;= 7">texlive-ec</package>
 
 	<package os="linux">xmlto</package>

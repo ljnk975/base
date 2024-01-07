@@ -1,0 +1,26 @@
+Notes on IPV6 Porting
+---------------------
+
+https://sourceforge.net/p/unfs3/bugs/8/
+https://gist.github.com/xuesongbj/81911c7e72d67aa2ef54e62632d7d8a8
+
+ROCKS7
+inet_ntoa(rqstp->rq_xprt->xp_raddr.sin_addr)
+          |      |        |        | 
+          |      |        |        +- struct in_addr (netinet/in.h:32)
+          |      |        +- struct sockaddr_in (netinet/in.h:240)
+          |      +-SVCXPRT (rpc/svc.h:91)
+          +- struct svc_req (rpc/svc.h:164)
+
+
+ROCKS8
+inet_nt??(rqstp->rq_xprt->xp_raddr.sin6_addr)
+          |      |        |        | 
+          |      |        |        + struct in6_addr (netinet/in.h:216)
+          |      |        + struct sockaddr_in6 (netinet/in.h:257)
+          |      + SVCXPRT (rpc/svc.h:131)
+          +- struct svc_req (rpc/svh.h:131)
+
+Replace inet_ntoa() with separate call to inet_ntop().
+Replace ntohs() with ntohl().
+

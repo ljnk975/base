@@ -26,34 +26,72 @@ ZONEFMT =  $(shell date +%Z)
 #needs this to include proper version number
 -include $(ROLLSROOT)/etc/Rolls.mk
 
-.PHONY : base updates kernel updated-dist updated-iso rebuild-iso roll-$(DISTRO)-$(VERSION)-update.xml
+.PHONY : baseos appstream kernel updated-dist updated-iso rebuild-iso roll-$(DISTRO)-$(VERSION)-update.xml
 
 include version.mk
-# Good???
-# include rocks-version-common.mk
 
 WORKDIR = /tmp/OSROLL
-default: updates 
+default: baseos appstream devel extras powertools 
 
-# Create the Base OS Roll
-base: workdir
+# Create the Rocky BaseOS Roll
+baseos: workdir
 	( cd $(WORKDIR);\
-	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(BASEPATH) arch=$(ARCH) rollname=$(DISTRO) version=$(VERSION) )
-	- /sbin/service httpd stop 
-	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-$(VERSION)-*.iso
-	- /sbin/service httpd start
-	/opt/rocks/bin/rocks enable roll $(DISTRO)
-	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(BASEPATH)/../..`
+	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(BASEOSPATH) arch=$(ARCH) rollname=$(DISTRO)-BaseOS-$(VERSION) version="`date +%F`" )
+#	- /sbin/service httpd stop 
+	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-BaseOS-$(VERSION)-*.$(ARCH).*.iso
+#	- /sbin/service httpd start
+	/opt/rocks/bin/rocks enable roll $(DISTRO)-BaseOS-$(VERSION)
+	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(BASEOSPATH)/../..`
 
-# Mirror Updates, then add to distro
-updates: workdir cleanupdates
+# Create the Rocky AppStream Roll
+appstream: workdir
 	(cd $(WORKDIR) ;\
-	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(UPDATESPATH) arch=$(ARCH) rollname=Updates-$(DISTRO)-$(VERSION) version="`date +%F`" )
-	- /sbin/service httpd stop
-	/opt/rocks/bin/rocks add roll $(WORKDIR)/Updates-$(DISTRO)-$(VERSION)-*.$(ARCH).*.iso
-	-/sbin/service httpd start
-	/opt/rocks/bin/rocks enable roll Updates-$(DISTRO)-$(VERSION)
-	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(UPDATESPATH)/../..`
+	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(APPSTREAMPATH) arch=$(ARCH) rollname=$(DISTRO)-AppStream-$(VERSION) version="`date +%F`" )
+#	- /sbin/service httpd stop
+	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-AppStream-$(VERSION)-*.$(ARCH).*.iso
+#	-/sbin/service httpd start
+	/opt/rocks/bin/rocks enable roll $(DISTRO)-AppStream-$(VERSION)
+	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(APPSTREAMPATH)/../..`
+
+# Create the Rocky Devel Roll
+devel: workdir
+	( cd $(WORKDIR);\
+	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(DEVELPATH) arch=$(ARCH) rollname=$(DISTRO)-Devel-$(VERSION) version="`date +%F`" )
+#	- /sbin/service httpd stop 
+	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-Devel-$(VERSION)-*.$(ARCH).*.iso
+#	- /sbin/service httpd start
+	/opt/rocks/bin/rocks enable roll $(DISTRO)-Devel-$(VERSION)
+	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(DEVELPATH)/../..`
+
+# Create the Rocky extras Roll
+extras: workdir
+	( cd $(WORKDIR);\
+	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(EXTRASPATH) arch=$(ARCH) rollname=$(DISTRO)-Extras-$(VERSION) version="`date +%F`" )
+#	- /sbin/service httpd stop 
+	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-Extras-$(VERSION)-*.$(ARCH).*.iso
+#	- /sbin/service httpd start
+	/opt/rocks/bin/rocks enable roll $(DISTRO)-Extras-$(VERSION)
+	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(EXTRASPATH)/../..`
+
+# Create the Rocky PowerTools Roll
+powertools: workdir
+	(cd $(WORKDIR) ;\
+	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(POWERTOOLSPATH) arch=$(ARCH) rollname=$(DISTRO)-PowerTools-$(VERSION) version="`date +%F`" )
+#	- /sbin/service httpd stop
+	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-PowerTools-$(VERSION)-*.$(ARCH).*.iso
+#	-/sbin/service httpd start
+	/opt/rocks/bin/rocks enable roll $(DISTRO)-PowerTools-$(VERSION)
+	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(POWERTOOLSPATH)/../..`
+
+# Create the (optional) Extra Packages for Enterprise Linux (EPEL) Roll
+epel: workdir
+	(cd $(WORKDIR) ;\
+	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(EPELPATH) arch=$(ARCH) rollname=EPEL-$(VERSION.MAJOR) version="`date +%F`" )
+#	- /sbin/service httpd stop
+	/opt/rocks/bin/rocks add roll $(WORKDIR)/EPEL-$(VERSION.MAJOR)-*.$(ARCH).*.iso
+#	-/sbin/service httpd start
+	/opt/rocks/bin/rocks enable roll EPEL-$(VERSION.MAJOR)
+	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(EPELPATH)/../..`
 
 # Mirror experimental kernels, then add to distro
 kernel: workdir cleankernel
@@ -65,14 +103,15 @@ kernel: workdir cleankernel
 	/opt/rocks/bin/rocks enable roll $(DISTRO)-kernel-experimental-$(VERSION)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(KERNELPATH)/../..`
 
-# Create the XML for creating an OS Roll with Updates
+# Create the XML for creating an joint BaseOS / AppStream roll
+# FIXME - Shall we join BaseOS and AppStream as default?
 roll-$(DISTRO)-$(VERSION)-update.xml:
 	sed -e 's/@DISTRO@/$(DISTRO)/g' -e 's/@VERSION@/$(VERSION)/g' -e 's/@DATE@/$(DATEFMT)/g' roll-distro-update.xml.in > roll-$(DISTRO)-$(VERSION)-update.xml 
 
 # Create the updated distro
 updated-dist: roll-$(DISTRO)-$(VERSION)-update.xml
 	if [ -d rocks-dist ]; then /bin/rm -rf rocks-dist; fi
-	rocks create distro rolls="$(DISTRO),$(VERSION) Updates-$(DISTRO)-$(VERSION),$(DATEFMT) $(DISTRO)-kernel-experimental-$(VERSION),$(DATEFMT)" 
+	rocks create distro rolls="$(DISTRO),$(VERSION) Appstream-$(DISTRO)-$(VERSION),$(DATEFMT) $(DISTRO)-kernel-experimental-$(VERSION),$(DATEFMT)" 
 
 # --- Experimental --- trying to merge content of kernel-experimental roll into Updates roll
 # Create Updates-experimental roll
@@ -93,24 +132,25 @@ updates-experimental:
 	mv *iso $(WORKDIR) )
 # --- Experimental ---
 
-## This mirrors the OS base and and updates, creates a distro based upon those and then creates
+## This mirrors the OS baseos and and appstream, creates a distro based upon those and then creates
 ## an ISO 
-updated-iso: base updates kernel updated-dist rebuild-iso
+updated-iso: baseos appstream kernel updated-dist rebuild-iso
 	echo "This is is the full mirror and build"
 
-## This rebuilds the updated-iso and assumes that base, updates rolls are already downloaded and
+## This rebuilds the updated-iso and assumes that baseos, appstream rolls are already downloaded and
 ## in the distro
 rebuild-iso: updated-dist
 	(cd rocks-dist/$(ARCH)/RedHat; \
 	 rocks create roll ../../../roll-$(DISTRO)-$(VERSION)-update.xml; \
 	 mv *iso ../../.. )
 
-# Remove All Previous Updates Rolls
-cleanupdates: workdir
-	- /sbin/service httpd stop
-	- /opt/rocks/bin/rocks remove roll Updates-$(DISTRO)-$(VERSION) arch=$(ARCH)
-	- /bin/rm $(WORKDIR)/Updates-$(DISTRO)-$(VERSION)-*.$(ARCH).*.iso
-	- /sbin/service httpd start
+# Remove All Previous Appstream Rolls
+cleanappstream: workdir
+#	- /sbin/service httpd stop
+	- /opt/rocks/bin/rocks disable roll $(DISTRO)-AppStream-$(VERSION) arch=$(ARCH)
+	- /opt/rocks/bin/rocks remove roll $(DISTRO)-AppStream-$(VERSION) arch=$(ARCH)
+	- /bin/rm $(WORKDIR)/$(DISTRO)-AppStream-$(VERSION)-*.$(ARCH).*.iso
+#	- /sbin/service httpd start
 
 cleankernel: workdir
 	- /sbin/service httpd stop

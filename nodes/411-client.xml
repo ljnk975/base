@@ -327,7 +327,7 @@ cp -rf /opt/rocks/share/sync-411-key.xml \
 /sbin/chkconfig channeld on
 </post>
 
-<post cond="rocks_version_major == 7">
+<post cond="rocks_version_major &gt;= 7">
 /usr/bin/systemctl enable rpcbind
 /usr/bin/systemctl enable channeld
 </post>

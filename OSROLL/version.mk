@@ -1,32 +1,26 @@
 ## Create 
-DISTRO=CentOS
-TSTARCH=$(shell /bin/arch)
-ifeq ($(TSTARCH),i686)
-ARCH=i386
-else
-ARCH=$(TSTARCH)
-endif
+DISTRO=Rocky
+ARCH=$(shell /bin/arch)
 
-ifeq ($(VERSION.MAJOR), 5)
-VERSION=5.9
-PKGS=RPMS
-BASEPATH=centos/$(VERSION)/os/$(ARCH)/CentOS/
-endif
-ifeq ($(VERSION.MAJOR), 6)
-VERSION=6.8
+ifeq ($(VERSION.MAJOR), 8)
+VERSION=8.9
 PKGS=Packages
-BASEPATH=centos/$(VERSION)/os/$(ARCH)/$(PKGS)/
-endif
-ifeq ($(VERSION.MAJOR), 7)
-VERSION=7.9.2009
-PKGS=Packages
-BASEPATH=centos/$(VERSION)/os/$(ARCH)/$(PKGS)/
+BASEOSPATH=$(BASENAME)/$(VERSION)/BaseOS/$(ARCH)/os/$(PKGS)/
+APPSTREAMPATH=$(BASENAME)/$(VERSION)/AppStream/$(ARCH)/os/$(PKGS)/
+DEVELPATH=$(BASENAME)/$(VERSION)/Devel/$(ARCH)/os/$(PKGS)/
+EXTRASPATH=$(BASENAME)/$(VERSION)/extras/$(ARCH)/os/$(PKGS)/
+POWERTOOLSPATH=$(BASENAME)/$(VERSION)/PowerTools/$(ARCH)/os/$(PKGS)/
+EPELPATH=$(EPELNAME)/$(VERSION.MAJOR)/Everything/$(ARCH)/$(PKGS)/
 endif
 
 MIRRORURL=http://mirror1.hs-esslingen.de/Mirrors
+BASENAME=rocky
+EPELNAME=epel
 
-UPDATESPATH=centos/$(VERSION)/updates/$(ARCH)/$(PKGS)/
+#MIRRORURL=https://ftp.halifax.rwth-aachen.de
+#BASENAME=rockylinux
+#EPELNAME=fedora-epel
 
-KERNELPATH=centos-altarch/$(VERSION)/experimental/$(ARCH)/$(PKGS)/
-
-ROLLNAME=CentOS-$(VERSION)-Updated
+#UPDATESPATH=centos/$(VERSION)/updates/$(ARCH)/$(PKGS)/
+#KERNELPATH=centos-altarch/$(VERSION)/experimental/$(ARCH)/$(PKGS)/
+#ROLLNAME=CentOS-$(VERSION)-Updated

@@ -112,6 +112,7 @@
 #include <stdlib.h>
 #include <syslog.h>
 #include <sys/types.h>
+#include <sys/sysmacros.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <getopt.h>

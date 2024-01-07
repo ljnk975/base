@@ -123,6 +123,7 @@ rpm::
 	mkdir -p $(REDHAT.RPMS)/$(ARCH)
 	cp $(DISTPATH)/$(CACHENAMED)*rpm $(REDHAT.RPMS)/$(ARCH)
 	touch -t 197012310000 $(REDHAT.RPMS)/$(ARCH)/$(CACHENAMED)*rpm
+	chmod 644 $(REDHAT.RPMS)/$(ARCH)/$(CACHENAMED)*rpm
 
 
 clean::
