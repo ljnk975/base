@@ -142,8 +142,10 @@
 	added foundation to graph
 	
 	</changelog>
-
+	
+	<!-- ROCKS8 drops foundation-gawk
 	<package os='linux'>foundation-gawk</package>
+	-->
 	<package os='linux'>foundation-ant</package>
 
 <post os="linux">

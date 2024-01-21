@@ -37,9 +37,7 @@ default: baseos appstream devel extras powertools
 baseos: workdir
 	( cd $(WORKDIR);\
 	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(BASEOSPATH) arch=$(ARCH) rollname=$(DISTRO)-BaseOS-$(VERSION) version="`date +%F`" )
-#	- /sbin/service httpd stop 
 	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-BaseOS-$(VERSION)-*.$(ARCH).*.iso
-#	- /sbin/service httpd start
 	/opt/rocks/bin/rocks enable roll $(DISTRO)-BaseOS-$(VERSION)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(BASEOSPATH)/../..`
 
@@ -47,9 +45,7 @@ baseos: workdir
 appstream: workdir
 	(cd $(WORKDIR) ;\
 	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(APPSTREAMPATH) arch=$(ARCH) rollname=$(DISTRO)-AppStream-$(VERSION) version="`date +%F`" )
-#	- /sbin/service httpd stop
 	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-AppStream-$(VERSION)-*.$(ARCH).*.iso
-#	-/sbin/service httpd start
 	/opt/rocks/bin/rocks enable roll $(DISTRO)-AppStream-$(VERSION)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(APPSTREAMPATH)/../..`
 
@@ -57,40 +53,32 @@ appstream: workdir
 devel: workdir
 	( cd $(WORKDIR);\
 	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(DEVELPATH) arch=$(ARCH) rollname=$(DISTRO)-Devel-$(VERSION) version="`date +%F`" )
-#	- /sbin/service httpd stop 
-	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-Devel-$(VERSION)-*.$(ARCH).*.iso
-#	- /sbin/service httpd start
-	/opt/rocks/bin/rocks enable roll $(DISTRO)-Devel-$(VERSION)
+#	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-Devel-$(VERSION)-*.$(ARCH).*.iso
+#	/opt/rocks/bin/rocks enable roll $(DISTRO)-Devel-$(VERSION)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(DEVELPATH)/../..`
 
 # Create the Rocky extras Roll
 extras: workdir
 	( cd $(WORKDIR);\
 	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(EXTRASPATH) arch=$(ARCH) rollname=$(DISTRO)-Extras-$(VERSION) version="`date +%F`" )
-#	- /sbin/service httpd stop 
-	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-Extras-$(VERSION)-*.$(ARCH).*.iso
-#	- /sbin/service httpd start
-	/opt/rocks/bin/rocks enable roll $(DISTRO)-Extras-$(VERSION)
+#	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-Extras-$(VERSION)-*.$(ARCH).*.iso
+#	/opt/rocks/bin/rocks enable roll $(DISTRO)-Extras-$(VERSION)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(EXTRASPATH)/../..`
 
 # Create the Rocky PowerTools Roll
 powertools: workdir
 	(cd $(WORKDIR) ;\
 	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(POWERTOOLSPATH) arch=$(ARCH) rollname=$(DISTRO)-PowerTools-$(VERSION) version="`date +%F`" )
-#	- /sbin/service httpd stop
-	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-PowerTools-$(VERSION)-*.$(ARCH).*.iso
-#	-/sbin/service httpd start
-	/opt/rocks/bin/rocks enable roll $(DISTRO)-PowerTools-$(VERSION)
+#	/opt/rocks/bin/rocks add roll $(WORKDIR)/$(DISTRO)-PowerTools-$(VERSION)-*.$(ARCH).*.iso
+#	/opt/rocks/bin/rocks enable roll $(DISTRO)-PowerTools-$(VERSION)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(POWERTOOLSPATH)/../..`
 
 # Create the (optional) Extra Packages for Enterprise Linux (EPEL) Roll
 epel: workdir
 	(cd $(WORKDIR) ;\
 	/opt/rocks/bin/rocks create mirror $(MIRRORURL)/$(EPELPATH) arch=$(ARCH) rollname=EPEL-$(VERSION.MAJOR) version="`date +%F`" )
-#	- /sbin/service httpd stop
-	/opt/rocks/bin/rocks add roll $(WORKDIR)/EPEL-$(VERSION.MAJOR)-*.$(ARCH).*.iso
-#	-/sbin/service httpd start
-	/opt/rocks/bin/rocks enable roll EPEL-$(VERSION.MAJOR)
+#	/opt/rocks/bin/rocks add roll $(WORKDIR)/EPEL-$(VERSION.MAJOR)-*.$(ARCH).*.iso
+#	/opt/rocks/bin/rocks enable roll EPEL-$(VERSION.MAJOR)
 	- rm -rf `readlink -f $(WORKDIR)/$(subst http://,,$(MIRRORURL))/$(EPELPATH)/../..`
 
 # Mirror experimental kernels, then add to distro
