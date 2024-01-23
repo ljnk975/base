@@ -216,6 +216,7 @@ SRCDIRS = `find . -maxdepth 1 -type d \
 	-not -name piece-pipe \
 	-not -name java \
 	-not -name rocks-java \
+	-not -name extras \
 	-not -name channel`
 
 ## Build environment modules on 5, it is part of 6 in the OS
