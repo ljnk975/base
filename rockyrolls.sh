@@ -205,4 +205,4 @@
 
 . $ROLLSROOT/etc/bootstrap-functions.sh || exit 1
 
-make -C OSROLL TMPDIR=/tmp baseos appstream devel extras powertools
+make -C OSROLL TMPDIR=/tmp baseos appstream devel extras powertools epel
