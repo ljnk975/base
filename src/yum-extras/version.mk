@@ -17,3 +17,8 @@ ifeq ($(VERSION.MAJOR),8)
 REPORPMS.NOARCH = epel-release-8-19.el8.noarch.rpm
 FAIL2BAN.PKGS = fail2ban fail2ban-firewalld fail2ban-sendmail fail2ban-server fail2ban-selinux
 endif
+# ROCKS9
+ifeq ($(VERSION.MAJOR),9)
+REPORPMS.NOARCH = epel-release-9-8.el9.noarch.rpm
+FAIL2BAN.PKGS = fail2ban fail2ban-firewalld fail2ban-sendmail fail2ban-server fail2ban-selinux
+endif

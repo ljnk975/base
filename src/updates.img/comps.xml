@@ -9766,7 +9766,6 @@
       <packagereq type="default">libXres-devel</packagereq>
       <packagereq type="default">libXTrap-devel</packagereq>
       <packagereq type="default">libXxf86dga-devel</packagereq>
-      <packagereq type="default">libXxf86misc-devel</packagereq>
       <packagereq type="default">libXxf86vm-devel</packagereq>
       <packagereq type="optional">xorg-x11-xbitmaps</packagereq>
       <packagereq type="optional">xorg-x11-server-sdk</packagereq>

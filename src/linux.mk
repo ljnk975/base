@@ -249,3 +249,8 @@ ifeq ($(VERSION.MAJOR), 8)
 SRCDIRS += rocks-anaconda-updates 
 endif
 
+# ROCKS9
+ifeq ($(VERSION.MAJOR), 9)
+SRCDIRS += rocks-anaconda-updates 
+endif
+

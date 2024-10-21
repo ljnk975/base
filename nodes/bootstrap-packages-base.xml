@@ -111,7 +111,6 @@
 	<package os="linux">libXpm</package>
 	<package os="linux">libXpm-devel</package>
 	<package os="linux">libXt-devel</package>
-	<package os="linux">libXxf86misc-devel</package>
 	<package os="linux">dracut</package>
 	<package os="linux">mariadb-devel</package>
 	<package os="linux">newt-devel</package>

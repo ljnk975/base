@@ -105,8 +105,8 @@ build:
 # ROCKS8
 # https://mirrors.xtom.de/epel/8/Everything/x86_64/Packages/e/epel-release-8-19.el8.noarch.rpm
 ifeq ($(shell ! test -f epel-release-8-19.el8.noarch.rpm && echo -n yes),yes)
-	@echo "ROCKS8: Sideloading epel-release-8-19.el8.noarch.rpm."
-	$(HTTPGET) -B https://dl.fedoraproject.org -F pub/epel/8/Everything/x86_64/Packages/e -n epel-release-8-19.el8.noarch.rpm
+	@echo "ROCKS9: Sideloading epel-release-9-8.el9.noarch.rpm."
+	$(HTTPGET) -B https://dl.fedoraproject.org -F pub/epel/9/Everything/x86_64/Packages/e -n epel-release-9-8.el9.noarch.rpm
 endif
 	mkdir -p $(REDHAT.RPMS)/$(ARCH)/
 	mkdir -p $(REDHAT.RPMS)/noarch/

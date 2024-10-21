@@ -2505,7 +2505,6 @@
       <packagereq variant="AppStream">libXtst-devel</packagereq>
       <packagereq variant="AppStream">libXv-devel</packagereq>
       <packagereq variant="AppStream">libXxf86dga-devel</packagereq>
-      <packagereq variant="AppStream">libXxf86misc-devel</packagereq>
       <packagereq variant="AppStream">libjpeg-turbo-devel</packagereq>
       <packagereq variant="AppStream">libpng15</packagereq>
       <packagereq variant="AppStream">libstdc++-devel</packagereq>

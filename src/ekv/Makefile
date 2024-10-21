@@ -386,7 +386,9 @@ install::
 # ROCKS8
 # There is no /usr/bin/volname in Rocky8
 ifneq ($(strip $(VERSION.MAJOR)), 8)
+ifneq ($(strip $(VERSION.MAJOR)), 9)
 	cp /usr/bin/volname $(ROOT)/$(PKGROOT)/rocks/bin/
+endif
 endif
 	cp /usr/bin/killall $(ROOT)/$(PKGROOT)/rocks/bin/
 	cp /usr/bin/telnet $(ROOT)/$(PKGROOT)/rocks/bin/

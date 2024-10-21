@@ -81,14 +81,14 @@ rpm::	$(HOME)/.rpmmacros prespec $(NAME).spec
 
 prespec::
 # ROCKS8 tcp_wrappers required for rocks-channel, but not available in Rocky8
-# https://dl.fedoraproject.org/pub/epel/8/Everything/SRPMS/Packages/t/tcp_wrappers-7.6-96.el8.src.rpm
-ifeq ($(shell ! test -f tcp_wrappers-7.6-96.el8.src.rpm && echo -n yes),yes)
-	@echo "ROCKS8: Sideloading tcp_wrappers-7.6-96.el8.src.rpm."
-	$(HTTPGET) -B https://dl.fedoraproject.org -F pub/epel/8/Everything/SRPMS/Packages/t -n tcp_wrappers-7.6-96.el8.src.rpm
+# https://dl.fedoraproject.org/pub/epel/9/Everything/source/tree/Packages/t/tcp_wrappers-7.6-97.el9.src.rpm
+ifeq ($(shell ! test -f tcp_wrappers-7.6-97.el9.src.rpm && echo -n yes),yes)
+	@echo "ROCKS9: Sideloading tcp_wrappers-7.6-97.el9.src.rpm."
+	$(HTTPGET) -B https://dl.fedoraproject.org -F pub/epel/9/Everything/source/tree/Packages/t -n tcp_wrappers-7.6-97.el9.src.rpm
 endif
 	(									\
 		mkdir content && cd content;					\
-		rpm2cpio ../tcp_wrappers-7.6-96.el8.src.rpm | cpio -idmv;	\
+		rpm2cpio ../tcp_wrappers-7.6-97.el9.src.rpm | cpio -idmv;	\
 		cd ..;								\
 		mv -v content/*.patch ../../SOURCES;				\
 		mv -v content/*.tar.gz ../../SOURCES;				\
@@ -99,4 +99,4 @@ endif
 clean::
 	$(RM) -r $(NAME).buildroot
 	$(RM) -r ../../BUILD/tcp_wrappers_7.6-ipv6.4
-	$(RM) tcp_wrappers-7.6-96.el8.src.rpm
+	$(RM) tcp_wrappers-7.6-97.el9.src.rpm

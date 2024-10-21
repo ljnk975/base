@@ -98,3 +98,8 @@ ifeq ($(VERSION.MAJOR),8)
 	mkdir -p $(ROOT)/$(RSYSLOGDIR)
 	install -m 644 $(RSYSLOG_SCRIPT) $(ROOT)/$(RSYSLOGDIR)
 endif
+ifeq ($(VERSION.MAJOR),9)
+	mkdir -p $(ROOT)/$(RSYSLOGDIR)
+	install -m 644 $(RSYSLOG_SCRIPT) $(ROOT)/$(RSYSLOGDIR)
+endif
+

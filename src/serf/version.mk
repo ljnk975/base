@@ -29,6 +29,14 @@ SCRIPTS = $(SYSTEMD_SCRIPTS)
 RSYSLOGDIR = /etc/rsyslog.d
 RSYSLOG_SCRIPT = serf.conf
 endif
+# ROCKS9
+ifeq ($(VERSION.MAJOR),9)
+SCRIPTMODE = 644
+SCRIPTDIR = $(SYSTEMD_DIR)
+SCRIPTS = $(SYSTEMD_SCRIPTS)
+RSYSLOGDIR = /etc/rsyslog.d
+RSYSLOG_SCRIPT = serf.conf
+endif
 
 RPM.FILES	= \
 $(PKGROOT)/*\n\
@@ -41,5 +49,8 @@ ifeq ($(VERSION.MAJOR),7)
 RPM.FILES += $(RSYSLOGDIR)/*
 endif
 ifeq ($(VERSION.MAJOR),8)
+RPM.FILES += $(RSYSLOGDIR)/*
+endif
+ifeq ($(VERSION.MAJOR),9)
 RPM.FILES += $(RSYSLOGDIR)/*
 endif
