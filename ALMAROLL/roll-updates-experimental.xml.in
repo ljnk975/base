@@ -1,0 +1,7 @@
+<roll name="Updates-experimental-@DISTRO@-@VERSION@" interface="4.0">
+	<timestamp time="@TIME@" date="@DATE@" tz="@ZONE@"/>
+	<color edge="lawngreen" node="lawngreen"/>
+	<info version="@DATE@" release="0" arch="x86_64"/>
+	<iso maxsize="0" bootable="0" mkisofs=""/>
+	<rpm rolls="0" bin="1" src="0"/>
+</roll>
