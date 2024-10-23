@@ -205,4 +205,4 @@
 
 . $ROLLSROOT/etc/bootstrap-functions.sh || exit 1
 
-make -C ALMAROLL TMPDIR=/tmp baseos appstream devel extras crb epel
+make -C ALMAROLL TMPDIR=/tmp baseos appstream
